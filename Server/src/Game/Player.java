@@ -35,13 +35,19 @@ public class Player extends Entity{
         }
     }
 
-    private Heading heading;
+    public Heading heading;
     private Map<Heading, Sprite> spriteMap;
     private float scale;
     private float speed;
+    private Bullet bullet;
+    TextureAtlas atlas;
+    Game game;
 
-    public Player(float x, float y, float scale, float speed, TextureAtlas atlas){
+    public Player(float x, float y, float scale, float speed, TextureAtlas atlas, Game game){
+
         super(EntityType.Player,x,y);
+        this.game = game;
+        this.atlas = atlas;
 
         heading = Heading.NORTH;
         spriteMap = new HashMap<Heading, Sprite>();
@@ -72,6 +78,10 @@ public class Player extends Entity{
         }else if (input.getKey(KeyEvent.VK_LEFT)){
             newX -=speed;
             heading = Heading.WEST;
+        }
+
+        if (input.getKey(KeyEvent.VK_SPACE)){
+            fire();
         }
 
         if(newX<0){
@@ -108,7 +118,10 @@ public class Player extends Entity{
         }else if (input.equals("LEFT")){
             newX -=speed;
             heading = Heading.WEST;
+        }else if (input.equals("SPACE")){
+            fire();
         }
+
 
         if(newX<0){
             newX=0;
@@ -133,4 +146,23 @@ public class Player extends Entity{
 
     }
 
-}
+    public void fire(){
+        String head = null;
+        if(!game.getBullet().isActive()){
+            if(this.heading == Heading.NORTH){
+                head = "NORTH";
+            }else if(this.heading == Heading.WEST){
+                head = "WEST";
+            }else if(this.heading == Heading.EAST){
+                head = "EAST";
+            }else if(this.heading == Heading.SOUTH){
+                head = "SOUTH";
+            }
+            game.getBullet().activate(x,y, head);
+        }
+
+    }
+
+    };
+
+

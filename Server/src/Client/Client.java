@@ -20,6 +20,7 @@ public class Client {
     private Scanner inMessage;
     private PrintWriter outMessage;
     public Player newPlayer;
+    public Game game;
     public String update = null;
     public int x,y;
 
@@ -30,7 +31,9 @@ public class Client {
         return this.clientName;
     }
 
-    public Client(TextureAtlas atlas, Graphics2D graphics){
+    public Client(TextureAtlas atlas, Graphics2D graphics, Game game){
+        this.game = game;
+
         try {
             clientSocket = new Socket(SERVER_HOST,SERVER_PORT);
             inMessage = new Scanner(clientSocket.getInputStream());
@@ -56,7 +59,7 @@ public class Client {
                                     y = Integer.parseInt(masMes[3]);
                                     break;
                                 case "1":
-                                    newPlayer = new Player(Integer.parseInt(masMes[2]),Integer.parseInt(masMes[3]), 2, 3,atlas);
+                                    newPlayer = new Player(Integer.parseInt(masMes[2]),Integer.parseInt(masMes[3]), 2, 3,atlas, game );
                                     System.out.println("newPlayer is create");
                                     break;
                                 case "2": update = masMes[2];
@@ -97,6 +100,8 @@ public class Client {
             sendMsg("2 " + getClientName() + " RIGHT");
         }else if (input.getKey(KeyEvent.VK_LEFT)){
             sendMsg("2 " + getClientName() + " LEFT");
+        }else if (input.getKey(KeyEvent.VK_SPACE)){
+            sendMsg("2 " + getClientName() + " SPACE");
         }
     }
 

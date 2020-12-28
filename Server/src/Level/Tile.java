@@ -1,6 +1,5 @@
 package Level;
 
-import graphics.SpriteSheet;
 import util.Utils;
 
 import java.awt.*;

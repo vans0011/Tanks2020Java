@@ -33,6 +33,10 @@ public class Game implements Runnable{
     private TextureAtlas atlas;
     private Player player;
     private Level lvl;
+    private Bullet bullet;
+     public Bullet getBullet(){
+      return bullet;
+     }
     private Client client;
 
     public Game(){
@@ -41,11 +45,12 @@ public class Game implements Runnable{
 
         Display.create(WIDTH, HEIGTH, TITLE, CLEAR_COLOR,NUM_BUFFERS);
         graphics = Display.getGraphics();
-        client = new Client(atlas,graphics);
+        client = new Client(atlas,graphics, this);
         input = new Input();
         Display.addInputListener(input);
-        player = new Player(client.getX(),client.getY(), 2, 3,atlas);
+        player = new Player(client.getX(),client.getY(), 2, 3,atlas, this);
         lvl = new Level(atlas);
+        bullet = new Bullet(2 ,5,atlas);
     }
 
     public synchronized void start(){
@@ -72,6 +77,9 @@ public class Game implements Runnable{
     private void update(){
 
         player.update(input);
+        if (bullet.isActive()){
+            bullet.update();
+        }
         lvl.update();
         client.outMsg(input);
         client.update();
@@ -81,6 +89,9 @@ public class Game implements Runnable{
         Display.clear();
         lvl.render(graphics);
         player.render(graphics);
+        if (bullet.isActive()){
+            bullet.render(graphics);
+        }
         client.render(graphics);
         Display.swapBuffers();
     }

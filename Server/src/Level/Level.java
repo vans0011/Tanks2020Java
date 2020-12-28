@@ -10,7 +10,6 @@ import java.util.Map;
 
 public class Level {
 
-
     public static final int TILE_SCALE = 8;
     public static final int TILE_IN_GAME_SCALE = 2;
     public static final int SCALED_TILE_SIZE = TILE_SCALE * TILE_IN_GAME_SCALE;
